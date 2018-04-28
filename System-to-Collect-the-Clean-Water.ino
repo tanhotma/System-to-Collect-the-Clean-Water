@@ -34,12 +34,16 @@ pinMode(sonicEchoPin, INPUT);  //Sets the echoPin as an Input
 
 void loop() {
 sonicGetDistance();
+Serial.print("Gallons: ");
+Serial.println(getWaterGallon()); // print current volume
 Serial.print("Volume: ");
 Serial.println(getWaterVolume()); // print current volume
+
 delay(500);
 }
 
-double getWaterVolume()
+
+double getWaterVolume() //cm^3
 {
   // A = pi * r^2
   //V = A * H
@@ -47,6 +51,9 @@ double getWaterVolume()
  double pi = 3.14;
 
   return mySonicDistance * pi * myContainerRadius * myContainerRadius;
+}
+double getWaterGallon(){
+  return getWaterVolume()/3,785.41;     //3,785.41 cm^3 / gal to get gallons
 }
 void sonicGetDistance(){
 
