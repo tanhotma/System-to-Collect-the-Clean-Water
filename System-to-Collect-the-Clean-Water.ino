@@ -1,7 +1,7 @@
 //================  Arduino Pin Setup ================//
 
-const int cleanWaterValvePin = 0; //Pin controlling the clean water valve.
-const int dirtyWaterValvePin = 0; //Pin controlling the dirty water valve.
+const int cleanWaterValvePin = 2; //Pin controlling the clean water valve.
+const int dirtyWaterValvePin = 3; //Pin controlling the dirty water valve.
 
 bool cleanWaterValveState = false; //Normally closed. Make these 
 bool dirtyWaterValveState = false; //Normally closed. 
@@ -35,7 +35,7 @@ void cleanValveState(bool myState){ // 1 == OPEN || 0 == closed
 
 void dirtyValveState(bool myState){ // 1 == OPEN || 0 == closed
   dirtyWaterValveState = myState;
-  digitalWrite(dirtyWaterValvePin, cleanWaterValveState);
+  digitalWrite(dirtyWaterValvePin, dirtyWaterValveState);
 }
 
 
