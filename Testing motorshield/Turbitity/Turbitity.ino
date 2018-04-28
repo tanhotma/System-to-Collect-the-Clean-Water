@@ -1,6 +1,6 @@
 /*1. The output voltage (Vout) of the sensor is inversely proportional to turbidity, so, 
 2. The clear water have a 0% turbidity, and 
-3. Turbidity of 100% means a fully opaque object- Tan Ho+ Fucking Keon+ Motherfucker Stephen
+3. Turbidity of 100% means a fully opaque object
 */
 
 #include <EEPROM.h> // to store last calibration value (blanco, Vclear)
