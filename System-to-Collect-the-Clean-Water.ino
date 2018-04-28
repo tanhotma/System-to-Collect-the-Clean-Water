@@ -58,7 +58,7 @@ digitalWrite(sonicTrigPin, HIGH);
 delayMicroseconds(10);
 digitalWrite(sonicTrigPin, LOW);
 //Reads the echoPin, returns the sound wave travel time in microseconds
-sonicDuration=pulseIn(sonicTrigPin, HIGH);
+sonicDuration=pulseIn(sonicEchoPin, HIGH);
 //Calculating the distance
 mySonicDistance=sonicDuration*0.034/2;
 //Prints the distance on the Serial Monitor
