@@ -13,9 +13,9 @@ bool dirtyWaterValveState = false; //Normally closed.
 //Ultra-sonic sensor  pins + variables
 double pi = 3.14;
 
-const int sonicTrigPin=9;
-const int sonicEchoPin=10;
-int mySonicDistance = 0;
+const int sonicTrigPin=8; // ultrasonic sensor
+const int sonicEchoPin=9; //
+double mySonicDistance = 0.0;
 long sonicDuration;
 
 double myContainerRadius = 7;  // radius. cm.
@@ -23,7 +23,7 @@ double myContainerHeight = 30; //cm
 double myContainerVolume =  myContainerHeight*pi*myContainerRadius*myContainerRadius; // cm^3
 
 //SD Card variables
-const int CSpin = 10;
+const int CSpin = 11;
 String dataString = ""; // holds the data to be written to the SD card
 File sensorData; // create file object
 
@@ -67,7 +67,7 @@ Serial.println(" cm^3");
 
 delay(500);
 dataString = "My gallons: " + String(getWaterGallons()); //updates every time ran.
-writeString();
+
 }
 
 void writeString(){
