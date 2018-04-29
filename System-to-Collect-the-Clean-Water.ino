@@ -10,7 +10,6 @@ const int dirtyWaterValvePin = 3; //Pin controlling the dirty water valve.
 bool cleanWaterValveState = false; //Normally closed. Make these 
 bool dirtyWaterValveState = false; //Normally closed. 
 
-
 //Ultra-sonic sensor  pins + variables
 double pi = 3.14;
 
@@ -72,16 +71,14 @@ dataString = "My gallons: " + String(getWaterGallons()); //updates every time ra
 }
 
 void writeString(){
-dataString = "number_1"; // convert to CSV
 saveData(); // save to SD card
 delay(60000); // delay before next write to SD Card, adjust as required
 }
 
-
 double getAirVolume() //cm^3
 {
   // A = pi * r^2
-  //V(water) = V(container)-volume = A * H
+  //V(water) = V(container)-Volume(air) = Vc - Va(A * H)
   // H = sonic distance
 
   return mySonicDistance * pi * myContainerRadius * myContainerRadius;
