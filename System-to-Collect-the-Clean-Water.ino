@@ -15,7 +15,7 @@ double pi = 3.14;
 
 const int sonicTrigPin=9;
 const int sonicEchoPin=10;
-double mySonicDistance = 0.0;
+int mySonicDistance = 0;
 long sonicDuration;
 
 double myContainerRadius = 7;  // radius. cm.
@@ -67,7 +67,7 @@ Serial.println(" cm^3");
 
 delay(500);
 dataString = "My gallons: " + String(getWaterGallons()); //updates every time ran.
-
+writeString();
 }
 
 void writeString(){
