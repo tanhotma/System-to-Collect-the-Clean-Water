@@ -35,9 +35,12 @@ pinMode(sonicEchoPin, INPUT);  //Sets the echoPin as an Input
 void loop() {
 sonicGetDistance();
 Serial.print("Gallons: ");
-Serial.println(getWaterGallon()); // print current volume
+Serial.print(getWaterGallon()); // print current volume
+Serial.println(" gals");
+
 Serial.print("Volume: ");
-Serial.println(getWaterVolume()); // print current volume
+Serial.print(getWaterVolume()); // print current volume
+Serial.println(" cm^3");
 
 delay(500);
 }
