@@ -12,15 +12,20 @@ bool dirtyWaterValveState = false; //Normally closed.
 
 
 //Ultra-sonic sensor  pins + variables
+double pi = 3.14;
+
 const int sonicTrigPin=9;
 const int sonicEchoPin=10;
 double mySonicDistance = 0.0;
-double myContainerRadius = 7;  // radius
 long sonicDuration;
+
+double myContainerRadius = 7;  // radius. cm.
+double myContainerHeight = 30; //cm
+double myContainerVolume =  myContainerHeight*pi*myContainerRadius*myContainerRadius; // cm^3
 
 //SD Card variables
 const int CSpin = 10;
-String dataString =""; // holds the data to be written to the SD card
+String dataString = ""; // holds the data to be written to the SD card
 File sensorData; // create file object
 
 void setup() {
@@ -49,8 +54,6 @@ return;
 Serial.println("card initialized.");
 }
 
-
-
 void loop() {
   
 sonicGetDistance();
@@ -75,15 +78,19 @@ delay(60000); // delay before next write to SD Card, adjust as required
 }
 
 
-double getWaterVolume() //cm^3
+double getAirVolume() //cm^3
 {
   // A = pi * r^2
-  //V = A * H
+  //V(water) = V(container)-volume = A * H
   // H = sonic distance
-  double pi = 3.14;
 
   return mySonicDistance * pi * myContainerRadius * myContainerRadius;
 }
+
+double getWaterVolume(){
+  return myContainerVolume - getAirVolume();
+}
+
 double getWaterGallons(){
   return getWaterVolume()/3,785.41;     //3,785.41 cm^3 / gal to get gallons
 }
