@@ -1,5 +1,7 @@
+#include "SD.h"
+#include "SPI.h"
+#include <string.h>
 //================  Arduino Pin Setup ================//
-
 
 //Valve Pins
 const int cleanWaterValvePin = 2; //Pin controlling the clean water valve.
@@ -16,6 +18,11 @@ double mySonicDistance = 0.0;
 double myContainerRadius = 7;  // radius
 long sonicDuration;
 
+//SD Card variables
+const int CSpin = 10;
+String dataString =""; // holds the data to be written to the SD card
+File sensorData; // create file object
+
 void setup() {
 Serial.begin(9600); // start serial debug
   
@@ -29,13 +36,27 @@ pinMode(dirtyWaterValvePin, OUTPUT);
 pinMode(sonicTrigPin, OUTPUT); //Sets the trigPin as an Output
 pinMode(sonicEchoPin, INPUT);  //Sets the echoPin as an Input
 
-
+//================= Iniatilize SD Card ===========//
+Serial.print("Initializing SD card...");
+pinMode(CSpin, OUTPUT);
+//
+// see if the card is present and can be initialized:
+if (!SD.begin(CSpin)) {
+Serial.println("Card failed, or not present");
+// don't do anything more:
+return;
+}
+Serial.println("card initialized.");
 }
 
+
+
 void loop() {
+  
 sonicGetDistance();
+
 Serial.print("Gallons: ");
-Serial.print(getWaterGallon()); // print current volume
+Serial.print(getWaterGallons()); // print current volume
 Serial.println(" gals");
 
 Serial.print("Volume: ");
@@ -43,6 +64,14 @@ Serial.print(getWaterVolume()); // print current volume
 Serial.println(" cm^3");
 
 delay(500);
+dataString = "My gallons: " + String(getWaterGallons()); //updates every time ran.
+
+}
+
+void writeString(){
+dataString = "number_1"; // convert to CSV
+saveData(); // save to SD card
+delay(60000); // delay before next write to SD Card, adjust as required
 }
 
 
@@ -51,11 +80,11 @@ double getWaterVolume() //cm^3
   // A = pi * r^2
   //V = A * H
   // H = sonic distance
- double pi = 3.14;
+  double pi = 3.14;
 
   return mySonicDistance * pi * myContainerRadius * myContainerRadius;
 }
-double getWaterGallon(){
+double getWaterGallons(){
   return getWaterVolume()/3,785.41;     //3,785.41 cm^3 / gal to get gallons
 }
 void sonicGetDistance(){
@@ -85,6 +114,20 @@ void cleanValveState(bool myState){ // 1 == OPEN || 0 == closed
 void dirtyValveState(bool myState){ // 1 == OPEN || 0 == closed
   dirtyWaterValveState = myState;
   digitalWrite(dirtyWaterValvePin, dirtyWaterValveState);
+}
+
+void saveData(){
+if(SD.exists("data.csv")){ // check the card is still there
+// now append new data file
+sensorData = SD.open("data.csv", FILE_WRITE);
+if (sensorData){
+sensorData.println(dataString);
+sensorData.close(); // close the file
+}
+}
+else{
+Serial.println("Error writing to file !");
+}
 }
 
 
